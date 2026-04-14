@@ -34,7 +34,7 @@ Mathlib contains a test [MathlibTest/grind/lint.lean](https://github.com/leanpro
 
 #### Squeezing
 
-Similiar to `simp`, `grind only` is a "squeezed" output usually provided by `grind?`. While this can be used to address performance issues, it is similiarly not preferred for the same reasons as `simp`.
+Similar to `simp`, `grind only` is a "squeezed" output usually provided by `grind?`. While this can be used to address performance issues, it is similarly not preferred for the same reasons as `simp`.
 
 #### Explicit Unification
 

@@ -55,4 +55,4 @@ example : x + y = 3 := by
     instantiate only [x, y]
 ```
 
-While the proof of `1 + 2 = 3` here is trivial (`grind` would do this automatically) this demonstrates the general idea of reducing to a single call to `grind` with user-guided intermidate proofs.
+While the proof of `1 + 2 = 3` here is trivial (`grind` would do this automatically) this demonstrates the general idea of reducing to a single call to `grind` with user-guided intermediate proofs.

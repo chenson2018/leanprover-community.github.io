@@ -12,13 +12,11 @@ Restructuring a proof to have a successful `grind?` output can usually be done b
 
 One place where usage of `grind` is likely undesirable is in modules very high in the import graph which establish the foundations of Mathlib's algebraic hierarchy. Because `grind` uses its own parallel theory of topics such as groups and rings, this results in proofs that are exceedingly opaque and use choice in unexpected ways.
 
-#### Golfing of Short Proofs
-
-Using `grind` to golf proofs that are already very short usually makes a sacrifice in readability (and performance, see also *Parameter Golfing* below) that is undesirable. A common example of this is rewriting a proof that explicitly proves both directions of an `Iff` into a single call to `grind`. When each direction involves fairly involved proofs, this quickly becomes much less clear.
-
 #### Parameter Golfing
 
-When a proof by induction is using `grind` in each branch of the proof, it is possible to combine these into a single call to `grind` that uses the union of any parameters. For instance, you could write
+Using `grind` to golf proofs that are already very short usually makes a sacrifice in readability that is undesirable. A common example of this is rewriting a proof that explicitly proves both directions of an `Iff` into a single call to `grind`. When each direction involves fairly involved proofs, this quickly becomes much less clear.
+
+Another example is when a proof by induction uses `grind` in each branch of the proof, combining these into a single call to `grind` that uses the union of any parameters. For instance, you could write
 
 ```lean
 example {α : Type} {xs ys : List α} : (xs ++ ys).length = xs.length + ys.length := by

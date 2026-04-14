@@ -1,12 +1,12 @@
 # `grind` Best Practices
 
-`grind` is a powerful proof automation tactic recently added to core Lean. Best practices for usgae in Mathlib are still developing, but this page collects topics that seem to have reached consensus on Zulip. These revolve roughly around the intertwined tradeoffs concerning maintainability, readability, and performance that should be considered when using `grind`.
+`grind` is a powerful proof automation tactic recently added to core Lean. Best practices for usage in Mathlib are still developing, but this page collects topics that seem to have reached consensus on Zulip. These revolve roughly around the intertwined trade-offs concerning maintainability, readability, and performance that should be considered when using `grind`.
 
 ## Maintainability
 
-While the other broad categories that appear below affect maintainability of proofs using `grind`, there are some particuliar topics concerning worth empasizing independently.
+While the other broad categories that appear below affect maintainability of proofs using `grind`, there are some particular topics concerning worth emphasizing independently.
 
-#### Proof Stability Acrross Toolchains
+#### Proof Stability Across Toolchains
 
 A key concern of using `grind`, which is still in active development, is the ability to repair proofs that break across toolchains. Typically the first step in examining such breakage is to look at the output of `grind?` from the successful proof on the previous toolchain. Usually this will provide a `grind only` that lists all of the theorems used, but it is possible for this tactic to fail. For this reason it is encouraged to always check for this when submitting a PR, either manually or by enabling the `linter.tacticAnalysis.verifyGrindOnly` linter. Without this step, it is easy for Mathlib to accrue proofs that are much more difficult to repair, especially for new proofs that have used `grind` from the onset.
 
@@ -14,7 +14,7 @@ Restructuring a proof to have a successful `grind?` output can usually be done b
 
 ## Readability
 
-There are several situations in which `grind` may be able to close a given goal, but makes a tradeoff in readability that is undesirable. These guidelines are somewhat difficult to codify, but especially important in certain areas of Mathlib.
+There are several situations in which `grind` may be able to close a given goal, but makes a trade-off in readability that is undesirable. These guidelines are somewhat difficult to codify, but especially important in certain areas of Mathlib.
 
 #### Usage in Fundamental Modules
 

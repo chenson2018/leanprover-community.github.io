@@ -35,7 +35,7 @@ Similar to `simp`, `grind only` is a "squeezed" output usually provided by `grin
 
 #### Explicit Unification
 
-Like `simp`, `grind` has the ability to make arbitrary terms as parameters. This means that it is possible to golf a usage of `apply` into a parameter passed to `grind`. While this may allow for a more compact proof, this often comes with performance and readability issues.
+Like `simp`, `grind` has the ability to make arbitrary terms as parameters. This means that it is possible to golf a usage of `apply` into a parameter passed to `grind`. While this may allow for a more compact proof, this often comes with performance and readability issues. Concretely, a proof of `apply foo; grind [bar]` is often preferred to `grind [foo, bar]`.
 
 #### Using Interactive Mode to Minimize Calls to `grind`
 

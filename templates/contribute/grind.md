@@ -4,7 +4,7 @@
 
 ## Maintainability
 
-While the other broad categories that appear below affect maintainability of proofs using `grind`, there are some particular topics concerning worth emphasizing independently.
+While the other broad categories that appear below affect maintainability of proofs using `grind`, there are some particular concerns worth emphasizing independently.
 
 #### Proof Stability Across Toolchains
 
@@ -22,11 +22,19 @@ One place where usage of `grind` is likely undesirable is in modules very high i
 
 #### Golfing of Short Proofs
 
-Using `grind` to golf proofs that are already very short usually makes a sacrifice in readability (and performance, see also *Parameter Golfing* below) that is undesirable. A common example of this is rewriting a proof that explicit proves both directions of an `Iff` into a single call to `grind`. When each direction involves fairly involved proofs, 
+Using `grind` to golf proofs that are already very short usually makes a sacrifice in readability (and performance, see also *Parameter Golfing* below) that is undesirable. A common example of this is rewriting a proof that explicitly proves both directions of an `Iff` into a single call to `grind`. When each direction involves fairly involved proofs, this quickly becomes much less clear.
 
 ## Performance
 
-Any pull requests that alter existing proofs to use `grind` should include the results performance `trace.profiler`, with the current rule of thumb being that differences smaller than 30 ms are considered with a margin of error. Below are a few suggestion for better `grind` performance.
+Any pull requests that alter existing proofs to use `grind` should include the performance results from `trace.profiler`, with the current rule of thumb being that differences smaller than 30 ms are considered with a margin of error. Below are a few suggestion for better `grind` performance.
+
+#### `#grind_lint`
+
+Mathlib contains a test [MathlibTest/grind/lint.lean](https://github.com/leanprover-community/mathlib4/blob/master/MathlibTest/grind/lint.lean) that checks for excessive instantiations caused by the interaction of `grind` annotations. When this test fails, it provides a code action for the corresponding `#grind_lint inspect` commands to provide additional debugging information.
+
+#### Squeezing
+
+Similiar to `simp`, `grind only` is a "squeezed" output usually provided by `grind?`. While this can be used to address performance issues, it is similiarly not preferred for the same reasons as `simp`.
 
 #### Explicit Unification
 
@@ -42,3 +50,23 @@ example {α : Type} {xs ys : List α} : (xs ++ ys).length = xs.length + ys.lengt
 ```
 
 While this may be more compact, it obscures which rules are being used for each branch of a proof and potentially creates performance issues. Unless the minimal parameters  that `grind` requires are the same for each branch, it is better to separate these calls to `grind`.
+
+#### Using Interactive Mode to Minimize Calls to `grind`
+
+In proofs with a complex local context, having many calls to `grind` in successive `have` blocks means repeatedly incurring a startup cost from `grind`. In these situations, it can be more performant to use `grind =>`, the interactive mode. Within these tactic blocks, `have` with only a signature indicates that a proof should be provided by `grind`. As an example, consider:
+
+```lean
+def x := 1
+def y := 2
+
+example : x + y = 3 := by
+  have : 1 + 2 = 3 := by grind
+  grind [x, y]
+
+example : x + y = 3 := by
+  grind =>
+    have : 1 + 2 = 3 
+    instantiate only [x, y]
+```
+
+While the proof of `1 + 2 = 3` here is trivial (`grind` would do this automatically) this demonstrates the general idea of reducing to a single call to `grind` with user-guided intermidate proofs.
